@@ -2,49 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab 2: Weather App</title>
+    <title>Lab 2</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Current Weather</h1>
-    <div id="weather-info"></div>
-
-    <script>
-        const API_KEY = '24af320882fe5e64c978bf2552ca2032';
-
-        function getWeather(lat, lon) {
-            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', url);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    const weatherInfo = document.getElementById('weather-info');
-                    const data = JSON.parse(xhr.responseText);
-                    weatherInfo.innerHTML = `
-                        <p>Temperature: ${data.main.temp}°C</p>
-                        <p>Description: ${data.weather[0].description}</p>
-                        <p>Humidity: ${data.main.humidity}%</p>
-                        <p>Wind Speed: ${data.wind.speed} m/s</p>
-                        <h3>Response Headers:</h3>
-                        <p>Date: ${xhr.getResponseHeader('Date')}</p>
-                        <p>Server: ${xhr.getResponseHeader('Server')}</p>
-                    `;
-                } else {
-                    console.error('Error fetching weather data:', xhr.statusText);
-                }
-            };
-            xhr.send();
-        }
-
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                getWeather(lat, lon);
-            });
-        } else {
-            console.log("Not workng flag");
-        }
-    </script>
+    <div class="container">
+        <h2>Weather in Troy, New York</h2>
+        <ul class="data-list" id="weatherData"></ul>
+        <div class="weather-emoji" id="weatherEmoji">
+        </div>
+        <h3>Upcoming Events in Troy, New York</h3>
+        <ul class="events-list" id="eventsData"></ul>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
