@@ -13,7 +13,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 if (isset($data['eventName'])) {
     $newEventName = $data['eventName'];
 
-    $stmt = $db->prepare("UPDATE Apple SET String = JSON_SET(String, '$[0].name', ?) WHERE ID = 10");
+    $stmt = $db->prepare("UPDATE api_data SET String = JSON_SET(String, '$[0].name', ?) WHERE ID = 10");
     if ($stmt) {
         $stmt->bind_param('s', $newEventName);
         if ($stmt->execute()) {

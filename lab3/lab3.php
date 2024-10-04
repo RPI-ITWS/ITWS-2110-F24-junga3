@@ -11,12 +11,12 @@ if ($db->connect_errno) {
 $data = json_decode(file_get_contents('php://input'), true);
 
 if ($data['type'] === 'weather') {
-    $stmt = $db->prepare("INSERT INTO Apple (ID, String) VALUES (11, ?) ON DUPLICATE KEY UPDATE String = ?");
+    $stmt = $db->prepare("INSERT INTO api_data (ID, String) VALUES (11, ?) ON DUPLICATE KEY UPDATE String = ?");
     $jsonString = json_encode($data['data']);
     $stmt->bind_param('ss', $jsonString, $jsonString);
 } 
 elseif ($data['type'] === 'events') {
-    $stmt = $db->prepare("INSERT INTO Apple (ID, String) VALUES (10, ?) ON DUPLICATE KEY UPDATE String = ?");
+    $stmt = $db->prepare("INSERT INTO api_data (ID, String) VALUES (10, ?) ON DUPLICATE KEY UPDATE String = ?");
     $jsonString = json_encode($data['data']);
     $stmt->bind_param('ss', $jsonString, $jsonString);
 } 
