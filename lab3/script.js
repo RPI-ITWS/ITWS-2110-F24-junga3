@@ -7,7 +7,9 @@ const units = 'imperial';
 const currentYear = new Date().getFullYear();
 
 const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=${units}&appid=${weatherApiKey}`;
-const eventsApiUrl = `https://calendarific.com/api/v2/holidays?&api_key=${calendarificApiKey}&country=${country}&year=${currentYear}&location=us-ny`;
+const today = new Date();
+const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+const eventsApiUrl = `https://calendarific.com/api/v2/holidays?&api_key=${calendarificApiKey}&country=${country}&year=${currentYear}&location=us-ny&from=${formattedDate}`;
 
 document.getElementById('fetchWeatherData').addEventListener('click', () => {
     fetch(weatherApiUrl)
@@ -34,12 +36,24 @@ document.getElementById('fetchEventsData').addEventListener('click', () => {
     fetch(eventsApiUrl)
         .then(response => response.json())
         .then(data => {
-            updateEventsUI(data.response.holidays.slice(0, 5));
-            return fetch("api_handler.php?action=insert", {
+            const currentDate = new Date();
+            const filteredEvents = data.response.holidays
+                .filter(event => new Date(event.date.iso) >= currentDate)
+                .sort((a, b) => new Date(a.date.iso) - new Date(b.date.iso));
+
+            const eventsList = document.getElementById('eventsList');
+            eventsList.innerHTML = '';
+            filteredEvents.slice(0, 5).forEach(event => {
+                const li = document.createElement('li');
+                li.textContent = `${event.name} - ${event.date.iso}`;
+                eventsList.appendChild(li);
+            });
+
+            return fetch("Lab3.php", {
                 method: "POST",
                 body: JSON.stringify({
                     type: 'events',
-                    data: data.response.holidays.slice(0, 5)
+                    data: filteredEvents.slice(0, 5)
                 }),
                 headers: {
                     "Content-Type": "application/json"
@@ -66,7 +80,7 @@ document.getElementById('fetchWeatherfromSQL').addEventListener('click', () => {
 });
 
 document.getElementById('fetchEventsfromSQL').addEventListener('click', () => {
-    fetch("api_handler.php?action=select_events")
+    fetch("Lab3Events.php")
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -74,7 +88,13 @@ document.getElementById('fetchEventsfromSQL').addEventListener('click', () => {
                 return;
             }
             const eventsData = JSON.parse(data.String);
-            updateEventsUI(eventsData);
+            const eventsList = document.getElementById('eventsList');
+            eventsList.innerHTML = '';
+            eventsData.forEach(event => {
+                const li = document.createElement('li');
+                li.textContent = `${event.name} - ${event.date.iso}`;
+                eventsList.appendChild(li);
+            });
         })
         .catch(error => console.error('Error fetching events data:', error));
 });
