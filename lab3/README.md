@@ -7,4 +7,4 @@ Button ideas/styling - https://getcssscan.com/css-buttons-examples
 PHP setup - https://www.php.net/manual/en/install.php
 Retrieve data help - https://stackoverflow.com/questions/7564832/how-to-bypass-access-control-allow-origin
 
-
+Hard lab was not able to get the events changer working fully. 
