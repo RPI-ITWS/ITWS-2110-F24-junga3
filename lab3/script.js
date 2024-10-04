@@ -9,154 +9,128 @@ const currentYear = new Date().getFullYear();
 const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=${units}&appid=${weatherApiKey}`;
 const eventsApiUrl = `https://calendarific.com/api/v2/holidays?&api_key=${calendarificApiKey}&country=${country}&year=${currentYear}&location=us-ny`;
 
-function fetchApiData() {
-    Promise.all([
-        fetch(weatherApiUrl).then(response => response.json()),
-        fetch(eventsApiUrl).then(response => response.json())
-    ])
-    .then(([weatherData, eventsData]) => {
-        displayApiData(weatherData, eventsData);
-    })
-    .catch(error => {
-        console.error('Error fetching API data:', error);
-        document.getElementById('apiData').innerHTML = `<p>Error fetching API data: ${error.message}</p>`;
-    });
-}
+document.getElementById('fetchWeatherData').addEventListener('click', () => {
+    fetch(weatherApiUrl)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('cityName').innerText = data.name;
+            document.getElementById('temperature').innerText = data.main.temp;
+            document.getElementById('description').innerText = data.weather[0].description;
+            document.getElementById('humidity').innerText = data.main.humidity;
+            document.getElementById('windSpeed').innerText = data.wind.speed;
 
-function displayApiData(weatherData, eventsData) {
-    const apiDataElement = document.getElementById('apiData');
-    apiDataElement.innerHTML = `
-        <h2>Weather in ${city}, ${state}</h2>
-        <ul class="data-list">
-            <li>Temperature: ${weatherData.main.temp}°F</li>
-            <li>Feels like: ${weatherData.main.feels_like}°F</li>
-            <li>Humidity: ${weatherData.main.humidity}%</li>
-            <li>Wind speed: ${weatherData.wind.speed} mph</li>
-            <li>Description: ${weatherData.weather[0].description}</li>
-        </ul>
-        <h2>Upcoming Events</h2>
-        <ul class="events-list">
-            ${eventsData.response.holidays.slice(0, 5).map(event => `
-                <li>
-                    <span class="event-name">${event.name}</span>
-                    <span class="event-date">${event.date.iso}</span>
-                </li>
-            `).join('')}
-        </ul>
-    `;
-}
-
-document.getElementById('storeDataBtn').addEventListener('click', function() {
-    Promise.all([
-        fetch(weatherApiUrl).then(response => response.json()),
-        fetch(eventsApiUrl).then(response => response.json())
-    ])
-    .then(([weatherData, eventsData]) => {
-        const data = {
-            weather: weatherData,
-            events: eventsData
-        };
-        
-        fetch('store_data.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
+            return fetch("Lab3.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    type: 'weather',
+                    data: data
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
         })
         .then(response => response.json())
-        .then(result => {
-            console.log('Data stored successfully:', result);
-            fetchDatabaseData();
-        })
-        .catch(error => {
-            console.error('Error storing data:', error);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching API data:', error);
-    });
+        .then(result => console.log('Weather data updated in PHP:', result))
+        .catch(error => console.error('Error:', error));
 });
 
-function fetchDatabaseData() {
-    fetch('fetch_data.php')
-    .then(response => response.json())
-    .then(data => {
-        displayDatabaseData(data);
-    })
-    .catch(error => {
-        console.error('Error fetching database data:', error);
-    });
-}
+document.getElementById('fetchEventsData').addEventListener('click', () => {
+    fetch(eventsApiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const eventsList = document.getElementById('eventsList');
+            eventsList.innerHTML = '';
+            data.response.holidays.slice(0, 5).forEach(event => {
+                const li = document.createElement('li');
+                li.textContent = `${event.name} - ${event.date.iso}`;
+                eventsList.appendChild(li);
+            });
 
-function displayDatabaseData(data) {
-    const databaseDataElement = document.getElementById('databaseData');
-    const weatherData = JSON.parse(data.weather.json_data);
-    const eventsData = JSON.parse(data.events.json_data);
-
-    databaseDataElement.innerHTML = `
-        <h2>Stored Weather Data</h2>
-        <ul class="data-list">
-            <li>Temperature: ${weatherData.main.temp}°F</li>
-            <li>Description: ${weatherData.weather[0].description}</li>
-        </ul>
-        <h2>Stored Event Data</h2>
-        <ul class="events-list">
-            ${eventsData.response.holidays.slice(0, 1).map(event => `
-                <li>
-                    <span class="event-name">${event.name}</span>
-                    <span class="event-date">${event.date.iso}</span>
-                </li>
-            `).join('')}
-        </ul>
-    `;
-}
-
-document.getElementById('updateForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    const updatedData = {
-        weather: {
-            main: {
-                temp: formData.get('temperature')
-            },
-            weather: [
-                {
-                    description: formData.get('description')
+            return fetch("Lab3.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    type: 'events',
+                    data: data.response.holidays.slice(0, 5)
+                }),
+                headers: {
+                    "Content-Type": "application/json"
                 }
-            ]
-        },
-        events: {
-            response: {
-                holidays: [
-                    {
-                        name: formData.get('eventName'),
-                        date: {
-                            iso: formData.get('eventDate')
-                        }
-                    }
-                ]
-            }
-        }
-    };
-
-    fetch('update_data.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedData)
-    })
-    .then(response => response.json())
-    .then(result => {
-        console.log('Data updated successfully:', result);
-        fetchDatabaseData();
-    })
-    .catch(error => {
-        console.error('Error updating data:', error);
-    });
+            });
+        })
+        .then(response => response.json())
+        .then(result => console.log('Events data updated in PHP:', result))
+        .catch(error => console.error('Error:', error));
 });
 
-// Initial data fetch
-fetchApiData();
-fetchDatabaseData();
+document.getElementById('fetchWeatherfromSQL').addEventListener('click', () => {
+    fetch("Lab3Weather.php")
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+                return;
+            }
+            const weatherData = JSON.parse(data.String);
+            document.getElementById('cityName').innerText = weatherData.name;
+            document.getElementById('temperature').innerText = weatherData.main.temp;
+            document.getElementById('description').innerText = weatherData.weather[0].description;
+            document.getElementById('humidity').innerText = weatherData.main.humidity;
+            document.getElementById('windSpeed').innerText = weatherData.wind.speed;
+        })
+        .catch(error => console.error('Error fetching weather data:', error));
+});
+
+document.getElementById('fetchEventsfromSQL').addEventListener('click', () => {
+    fetch("Lab3Events.php")
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+                return;
+            }
+            const eventsData = JSON.parse(data.String);
+            const eventsList = document.getElementById('eventsList');
+            eventsList.innerHTML = '';
+            eventsData.forEach(event => {
+                const li = document.createElement('li');
+                li.textContent = `${event.name} - ${event.date.iso}`;
+                eventsList.appendChild(li);
+            });
+        })
+        .catch(error => console.error('Error fetching events data:', error));
+});
+
+document.getElementById('updateWeatherForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const newTemperature = document.getElementById('newTemperature').value;
+    document.getElementById('temperature').innerText = newTemperature;
+    fetch("Lab3UserWeather.php", {
+        method: "POST",
+        body: JSON.stringify({ temperature: newTemperature }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch(error => console.error('Error updating data in PHP:', error));
+});
+
+document.getElementById('updateEventForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const newEventName = document.getElementById('newEventName').value;
+    fetch("Lab3UserEvents.php", {
+        method: "POST",
+        body: JSON.stringify({ eventName: newEventName }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            document.getElementById('fetchEventsfromSQL').click();
+        })
+        .catch(error => console.error('Error updating event data in PHP:', error));
+});
