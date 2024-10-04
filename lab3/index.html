@@ -3,28 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather and Holiday Data</title>
+    <title>Weather and Calendar Events Data</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Weather and Holiday Data</h1>
-        <div id="apiData"></div>
-        <button id="storeDataBtn" class="button-54" role="button">Store Data</button>
-        <div id="databaseData"></div>
-        <h2>Update Data</h2>
-        <form id="updateForm">
-            <label for="temperature">Temperature (°F):</label>
-            <input type="number" id="temperature" name="temperature" required>
-            <label for="description">Weather Description:</label>
-            <input type="text" id="description" name="description" required>
-            <label for="eventName">Event Name:</label>
-            <input type="text" id="eventName" name="eventName" required>
-            <label for="eventDate">Event Date:</label>
-            <input type="date" id="eventDate" name="eventDate" required>
-            <button type="submit" class="button-54">Update Data</button>
+        <h1>Weather and Calendar Events Data</h1>
+        <button id="fetchWeatherData" class="button-54">API Weather Data</button>
+        <button id="fetchEventsData" class="button-54">API Calendar Events</button>
+        <button id="fetchWeatherfromSQL" class="button-54">MySQL Weather from SQL</button>
+        <button id="fetchEventsfromSQL" class="button-54">MySQL Events from SQL</button>
+        
+        <h2>Weather Data</h2>
+        <p>City: <span id="cityName">--</span></p>
+        <p>Temperature: <span id="temperature">--</span> °F</p>
+        <p>Description: <span id="description">--</span></p>
+        <p>Humidity: <span id="humidity">--</span>%</p>
+        <p>Wind Speed: <span id="windSpeed">--</span> mph</p>
+
+        <h2>Calendar Events</h2>
+        <ul id="eventsList"></ul>
+
+        <h2>Update Weather Data</h2>
+        <form id="updateWeatherForm">
+            <label for="newTemperature">New Temperature:</label>
+            <input type="number" id="newTemperature" required>
+            <button type="submit" class="button-54">Update Temperature</button>
+        </form>
+
+        <h2>Update Event Data</h2>
+        <form id="updateEventForm">
+            <label for="newEventName">New Event Name:</label>
+            <input type="text" id="newEventName" required>
+            <button type="submit" class="button-54">Update Event Name</button>
         </form>
     </div>
-    <script src="script.js"></script>
+    <script src="lab3.js"></script>
 </body>
 </html>
