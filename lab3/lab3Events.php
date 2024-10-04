@@ -8,7 +8,7 @@ if ($db->connect_errno) {
     die(json_encode(['error' => 'Database connection failed: ' . $db->connect_error]));
 }
 
-$query = 'SELECT * FROM `Apple` WHERE ID = 10';
+$query = 'SELECT * FROM `api_data` WHERE ID = 10';
 $result = $db->query($query);
 
 if ($result) {
