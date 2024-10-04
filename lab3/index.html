@@ -11,12 +11,12 @@
         <h1>Lab3</h1>
         <button id="fetchWeatherData" class="button-54">API Weather Data</button>
         <button id="fetchEventsData" class="button-54">API Calendar Events</button>
-        <button id="fetchWeatherfromSQL" class="button-54">MySQL Weather from SQL</button>
-        <button id="fetchEventsfromSQL" class="button-54">MySQL Events from SQL</button>
+        <button id="fetchWeatherfromSQL" class="button-54">MySQL Weather</button>
+        <button id="fetchEventsfromSQL" class="button-54">MySQL Events</button>
         
         <h2>Weather Data</h2>
         <p>City: <span id="cityName">--</span></p>
-        <p>Temperature: <span id="temperature">--</span> °F</p>
+        <p>Temperature: <span id="temperature">--</span>°F</p>
         <p>Description: <span id="description">--</span></p>
         <p>Humidity: <span id="humidity">--</span>%</p>
         <p>Wind Speed: <span id="windSpeed">--</span> mph</p>
@@ -29,13 +29,6 @@
             <label for="newTemperature">New Temperature:</label>
             <input type="number" id="newTemperature" required>
             <button type="submit" class="button-54">Update Temperature</button>
-        </form>
-
-        <h2>Update Event Data</h2>
-        <form id="updateEventForm">
-            <label for="newEventName">New Event Name:</label>
-            <input type="text" id="newEventName" required>
-            <button type="submit" class="button-54">Update Event Name</button>
         </form>
     </div>
     <script src="script.js"></script>
