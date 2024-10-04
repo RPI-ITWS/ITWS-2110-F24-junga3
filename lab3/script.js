@@ -13,13 +13,8 @@ document.getElementById('fetchWeatherData').addEventListener('click', () => {
     fetch(weatherApiUrl)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('cityName').innerText = data.name;
-            document.getElementById('temperature').innerText = data.main.temp;
-            document.getElementById('description').innerText = data.weather[0].description;
-            document.getElementById('humidity').innerText = data.main.humidity;
-            document.getElementById('windSpeed').innerText = data.wind.speed;
-
-            return fetch("Lab3.php", {
+            updateWeatherUI(data);
+            return fetch("api_handler.php?action=insert", {
                 method: "POST",
                 body: JSON.stringify({
                     type: 'weather',
@@ -39,15 +34,8 @@ document.getElementById('fetchEventsData').addEventListener('click', () => {
     fetch(eventsApiUrl)
         .then(response => response.json())
         .then(data => {
-            const eventsList = document.getElementById('eventsList');
-            eventsList.innerHTML = '';
-            data.response.holidays.slice(0, 5).forEach(event => {
-                const li = document.createElement('li');
-                li.textContent = `${event.name} - ${event.date.iso}`;
-                eventsList.appendChild(li);
-            });
-
-            return fetch("Lab3.php", {
+            updateEventsUI(data.response.holidays.slice(0, 5));
+            return fetch("api_handler.php?action=insert", {
                 method: "POST",
                 body: JSON.stringify({
                     type: 'events',
@@ -64,7 +52,7 @@ document.getElementById('fetchEventsData').addEventListener('click', () => {
 });
 
 document.getElementById('fetchWeatherfromSQL').addEventListener('click', () => {
-    fetch("Lab3Weather.php")
+    fetch("api_handler.php?action=select_weather")
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -72,17 +60,13 @@ document.getElementById('fetchWeatherfromSQL').addEventListener('click', () => {
                 return;
             }
             const weatherData = JSON.parse(data.String);
-            document.getElementById('cityName').innerText = weatherData.name;
-            document.getElementById('temperature').innerText = weatherData.main.temp;
-            document.getElementById('description').innerText = weatherData.weather[0].description;
-            document.getElementById('humidity').innerText = weatherData.main.humidity;
-            document.getElementById('windSpeed').innerText = weatherData.wind.speed;
+            updateWeatherUI(weatherData);
         })
         .catch(error => console.error('Error fetching weather data:', error));
 });
 
 document.getElementById('fetchEventsfromSQL').addEventListener('click', () => {
-    fetch("Lab3Events.php")
+    fetch("api_handler.php?action=select_events")
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -90,13 +74,7 @@ document.getElementById('fetchEventsfromSQL').addEventListener('click', () => {
                 return;
             }
             const eventsData = JSON.parse(data.String);
-            const eventsList = document.getElementById('eventsList');
-            eventsList.innerHTML = '';
-            eventsData.forEach(event => {
-                const li = document.createElement('li');
-                li.textContent = `${event.name} - ${event.date.iso}`;
-                eventsList.appendChild(li);
-            });
+            updateEventsUI(eventsData);
         })
         .catch(error => console.error('Error fetching events data:', error));
 });
@@ -105,7 +83,7 @@ document.getElementById('updateWeatherForm').addEventListener('submit', (event) 
     event.preventDefault();
     const newTemperature = document.getElementById('newTemperature').value;
     document.getElementById('temperature').innerText = newTemperature;
-    fetch("Lab3UserWeather.php", {
+    fetch("api_handler.php?action=update_weather", {
         method: "POST",
         body: JSON.stringify({ temperature: newTemperature }),
         headers: {
@@ -120,7 +98,7 @@ document.getElementById('updateWeatherForm').addEventListener('submit', (event) 
 document.getElementById('updateEventForm').addEventListener('submit', (event) => {
     event.preventDefault();
     const newEventName = document.getElementById('newEventName').value;
-    fetch("Lab3UserEvents.php", {
+    fetch("api_handler.php?action=update_events", {
         method: "POST",
         body: JSON.stringify({ eventName: newEventName }),
         headers: {
@@ -134,3 +112,21 @@ document.getElementById('updateEventForm').addEventListener('submit', (event) =>
         })
         .catch(error => console.error('Error updating event data in PHP:', error));
 });
+
+function updateWeatherUI(data) {
+    document.getElementById('cityName').innerText = data.name;
+    document.getElementById('temperature').innerText = data.main.temp;
+    document.getElementById('description').innerText = data.weather[0].description;
+    document.getElementById('humidity').innerText = data.main.humidity;
+    document.getElementById('windSpeed').innerText = data.wind.speed;
+}
+
+function updateEventsUI(events) {
+    const eventsList = document.getElementById('eventsList');
+    eventsList.innerHTML = '';
+    events.forEach(event => {
+        const li = document.createElement('li');
+        li.textContent = `${event.name} - ${event.date.iso}`;
+        eventsList.appendChild(li);
+    });
+}
