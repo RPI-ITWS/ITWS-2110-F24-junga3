@@ -1,6 +1,7 @@
 Lab 2 - Andrew Jung - junga3
 Fun lab I liked using multiple diffent apis at the same time. 
 Sources:
+OpenWeather API Documentation - https://openweathermap.org/api
 Emoji API Documentation - https://emoji-api.com/#documentation
 Holidays API Documentation - https://calendarific.com/api-documentation
 validator - https://validator.w3.org/nu/#textarea
