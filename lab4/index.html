@@ -15,7 +15,7 @@
     
     <div id="infoContainer">
         <div id="weatherInfo">
-            <h2>Weather Info</h2>
+            <h2>🌤️ Current Weather</h2>
             <p id="displayTemperature"></p>
             <p id="displayWindSpeed"></p>
             <p id="displayHumidity"></p>
@@ -24,62 +24,69 @@
         </div>
         
         <div id="holidaysInfo">
-            <h2>Next 5 Holidays</h2>
+            <h2>🎉 Upcoming Holidays</h2>
             <ul id="holidaysListDisplay">
                 <!-- Holidays will be dynamically inserted here -->
             </ul>
         </div>
     </div>
 
-    <section id="weatherInput">
-        <h2>Update Weather Info</h2>
-        <div>
-            <label for="temperature">Temperature:</label>
-            <input type="text" id="temperature">
+    <section id="updateSection">
+        <h2>🔄 Update Information</h2>
+        <div class="updateGroup">
+            <h3>🌦️ Update Weather Info</h3>
+            <div>
+                <label for="temperature">Temperature:</label>
+                <input type="text" id="temperature" placeholder="e.g., 75°F">
+            </div>
+            <div>
+                <label for="windSpeed">Wind Speed:</label>
+                <input type="text" id="windSpeed" placeholder="e.g., 10 mph">
+            </div>
+            <div>
+                <label for="humidity">Humidity:</label>
+                <input type="text" id="humidity" placeholder="e.g., 60%">
+            </div>
+            <div>
+                <label for="weatherDescription">Description:</label>
+                <input type="text" id="weatherDescription" placeholder="e.g., Sunny">
+            </div>
+            <div>
+                <label for="pressure">Pressure:</label>
+                <input type="text" id="pressure" placeholder="e.g., 1013 hPa">
+            </div>
+        </div>
+        
+        <div class="updateGroup">
+            <h3>🎊 Update Holidays Info</h3>
+            <div>
+                <label for="holiday1">Holiday 1:</label>
+                <input type="text" id="holiday1" placeholder="e.g., New Year's Day - Jan 1">
+            </div>
+            <div>
+                <label for="holiday2">Holiday 2:</label>
+                <input type="text" id="holiday2" placeholder="e.g., Independence Day - Jul 4">
+            </div>
+            <div>
+                <label for="holiday3">Holiday 3:</label>
+                <input type="text" id="holiday3" placeholder="e.g., Thanksgiving - Nov 23">
+            </div>
+            <div>
+                <label for="holiday4">Holiday 4:</label>
+                <input type="text" id="holiday4" placeholder="e.g., Christmas - Dec 25">
+            </div>
+            <div>
+                <label for="holiday5">Holiday 5:</label>
+                <input type="text" id="holiday5" placeholder="e.g., Labor Day - Sep 5">
+            </div>
         </div>
         <div>
-            <label for="windSpeed">Wind Speed:</label>
-            <input type="text" id="windSpeed">
-        </div>
-        <div>
-            <label for="humidity">Humidity:</label>
-            <input type="text" id="humidity">
-        </div>
-        <div>
-            <label for="weatherDescription">Description:</label>
-            <input type="text" id="weatherDescription">
-        </div>
-        <div>
-            <label for="pressure">Pressure:</label>
-            <input type="text" id="pressure">
+            <button id="updateInfo">✨ Update Info</button>
         </div>
     </section>
 
-    <section id="holidaysInput">
-        <h2>Update Holidays Info</h2>
-        <div>
-            <label for="holiday1">Holiday 1:</label>
-            <input type="text" id="holiday1">
-        </div>
-        <div>
-            <label for="holiday2">Holiday 2:</label>
-            <input type="text" id="holiday2">
-        </div>
-        <div>
-            <label for="holiday3">Holiday 3:</label>
-            <input type="text" id="holiday3">
-        </div>
-        <div>
-            <label for="holiday4">Holiday 4:</label>
-            <input type="text" id="holiday4">
-        </div>
-        <div>
-            <label for="holiday5">Holiday 5:</label>
-            <input type="text" id="holiday5">
-        </div>
-        <div>
-            <button id="updateInfo">Update Info</button>
-        </div>
-    </section>
+    <footer>
+        <p>🌐 Powered by OpenWeather and Calendarific APIs | Created with 💚 for Troy, NY</p>
+    </footer>
 </body>
 </html>
