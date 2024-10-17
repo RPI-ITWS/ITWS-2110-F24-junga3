@@ -1,20 +1,22 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #83a4d4, #b6fbff);
     color: #333;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 header {
-    background-color: #4CAF50;
+    background: linear-gradient(90deg, #4CAF50, #45a049);
     color: white;
     padding: 20px;
     text-align: center;
+    border-bottom: 5px solid #388e3c;
 }
 
 #logo {
-    width: 100px;
+    width: 120px;
     height: auto;
     display: block;
     margin: 0 auto 20px;
@@ -24,60 +26,84 @@ header {
     display: flex;
     justify-content: space-around;
     padding: 20px;
-    background-color: white;
+    background-color: #ffffffa0;
     margin: 20px auto;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    max-width: 1000px;
 }
 
 #weatherInfo, #holidaysInfo {
     flex: 1;
-    margin: 0 10px;
+    margin: 0 20px;
+    text-align: center;
+    font-size: 1.1em;
 }
 
-section {
+h2 {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+p, ul li {
+    font-size: 1em;
+    padding: 10px;
+    background: #f9f9f9;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#updateSection {
     background-color: white;
     margin: 20px auto;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+}
+
+.updateGroup {
+    margin-bottom: 20px;
 }
 
 label {
     display: inline-block;
-    width: 100px;
+    width: 150px;
+    font-weight: bold;
 }
 
 input {
-    margin-bottom: 10px;
-    padding: 5px;
-    width: calc(100% - 110px);
+    margin-bottom: 15px;
+    padding: 10px;
+    width: calc(100% - 160px);
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #ff9800;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 15px 25px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #f57c00;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
-    background-color: #f9f9f9;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+footer {
+    background: #222;
+    color: #1a1919;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    font-size: 0.9em;
 }
