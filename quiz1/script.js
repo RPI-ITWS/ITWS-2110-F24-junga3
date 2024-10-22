@@ -38,7 +38,7 @@ function fetchWeather(city, countryCode, elementId) {
 
             weatherDiv.innerHTML = `
                 <img src="${iconUrl}" alt="Weather icon">
-                <p>Temperature: ${temp}°C</p>
+                <ul>Temperature: ${temp}°C</p>
                 <p>Description: ${description}</p>
             `;
         })
