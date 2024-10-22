@@ -3,7 +3,7 @@ quiz 1 - junga3
 https://junga3rpi.eastus.cloudapp.azure.com/ITWS-2110-F24-junga3/quiz1/
 
 
-First I just did a basic api call with the frankfurter API. I then copied over my lab2 code for handling the other APIs into this. I wanted to focus on the frontend first as that gives the most points accoridng to the rubric. I was not able to complete the database setup so I will lose all points for the php/mysql and I focused my time on the other parts of the quizzes. I had a personal website that I was able to refernece the styling for and was able to copy most of it into this quiz. 
+First I just did a basic api call with the frankfurter API. I then copied over my lab2 code for handling the other APIs into this. I wanted to focus on the frontend first as that gives the most points accoridng to the rubric. I was not able to complete the database setup so I will lose all points for the php/mysql and I focused my time on the other parts of the quizzes. I had a personal website that I was able to refernece the styling for and was able to copy most of it into this quiz. Found the extra credit by searching rpi reddit.
 
 Extra Credit:
 Not the Rensselaer Handbook (https://github.com/DrBarnack/ntrh)
